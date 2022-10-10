@@ -80,7 +80,7 @@ var (
 	jsonWithDefaultsAndManyServices = []byte(`
 		{
 			"defaults": {
-				"errorRate": "10%",
+				"errorRate": 0.1,
 				"numReplicas": 2,
 				"requestSize": 516,
 				"responseSize": 128,
@@ -113,8 +113,8 @@ var (
 					"responseSize": "1K",
 					"script": [
 						[
-							{ "call": {"service": "a", "size": "516" }},
-							{ "call": {"service": "b", "size": "516" }}
+							{ "call": "a" },
+							{ "call": "b" }
 						],
 						{ "sleep": "10ms" }
 					]
@@ -130,7 +130,7 @@ var (
 			ErrorRate:    0.1,
 			ResponseSize: 128,
 			Script: script.Script([]script.Command{
-				100 * time.Millisecond,
+				script.SleepCommand(100 * time.Millisecond),
 			}),
 		},
 		{
@@ -141,7 +141,7 @@ var (
 			ResponseSize: 128,
 			Script: script.Script([]script.Command{
 				script.RequestCommand{ServiceName: "a", Size: 1024, CallOverride: "a:8080"},
-				10 * time.Millisecond,
+				script.SleepCommand(10 * time.Millisecond),
 			}),
 		},
 		{
@@ -155,7 +155,7 @@ var (
 					script.RequestCommand{ServiceName: "a", Size: 516, CallOverride: "a:8080"},
 					script.RequestCommand{ServiceName: "b", Size: 516, CallOverride: "b:8080"},
 				},
-				10 * time.Millisecond,
+				script.SleepCommand(10 * time.Millisecond),
 			}),
 		},
 	}}
@@ -183,7 +183,7 @@ var (
 								{ "call": { "service" : "a", "call-override": "a:8080"}}, 
 								{ "call": {"service" : "a", "call-override": "a:8080"}}
 							],
-							{ "sleep": "10ms" }
+							{ "sleep": "20ms" }
 						]
 					]
 				}
