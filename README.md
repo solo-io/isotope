@@ -1,5 +1,3 @@
-WARNING: THIS REPO HAS beEN MOVED TO https://github.com/solo-io/isotope
-
 # Isotope and Converter
 
 Inspired by [Istio's Isotope](https://github.com/istio/tools/tree/master/isotope)
