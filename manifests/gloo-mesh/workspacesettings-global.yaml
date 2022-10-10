@@ -1,0 +1,15 @@
+  apiVersion: admin.gloo.solo.io/v2
+  kind: WorkspaceSettings
+  metadata:
+    name: global # Name must be global
+    namespace: gloo-mesh
+  spec:
+    options:
+      serviceIsolation:
+        enabled: false
+      federation:
+        enabled: false
+      eastWestGateways:
+        - selector:
+            labels:
+              istio: eastwestgateway

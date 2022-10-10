@@ -1,0 +1,29 @@
+defaults:
+  numReplicas: 1
+services:
+- isEntrypoint: true
+  name: app1
+  namespace: demo
+  cluster: cluster1
+  script:
+    - call:
+        service: app2
+        call-override: app2.demo2.svc:8080
+    - call:
+        service: app3
+#        call-override: app3.demo3:8080 # Once this is uncommented, it fails because it does not exist
+        call-override: app3.global:8080 # Once this is uncommented and VirtualDestination created, this works
+- name: app2
+  namespace: demo2
+  cluster: cluster1
+- name: app3
+  namespace: demo3
+  cluster: cluster2
+  script:
+    - call:
+        service: app4
+        call-override: app4.demo4.svc:8080
+- name: app4
+  errorRate: 50%
+  namespace: demo4
+  cluster: cluster2

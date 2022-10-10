@@ -1,0 +1,24 @@
+apiVersion: admin.gloo.solo.io/v2
+kind: WorkspaceSettings
+metadata:
+  name: system1
+  namespace: demo1
+spec:
+  importFrom:
+    - workspaces:
+        - name: gateways
+      resources:
+        - kind: SERVICE
+  exportTo:
+    - workspaces:
+        - name: gateways
+      resources:
+        - kind: SERVICE
+          labels:
+            run: demo-app
+        - kind: SERVICE
+          labels:
+            app: reviews
+        - kind: ALL
+          labels:
+            expose: "true"

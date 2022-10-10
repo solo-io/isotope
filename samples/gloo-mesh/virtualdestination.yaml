@@ -1,0 +1,19 @@
+apiVersion: networking.gloo.solo.io/v2
+kind: VirtualDestination
+metadata:
+  name: demo3
+  namespace: demo3
+  labels:
+    expose: "true"
+    failover: "true"
+spec:
+  hosts:
+    - app3.global
+  services:
+    - namespace: demo3
+      cluster: cluster2
+      labels:
+        app: app3
+  ports:
+    - number: 8080
+      protocol: HTTP

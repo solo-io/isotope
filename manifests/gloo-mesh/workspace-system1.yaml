@@ -1,0 +1,17 @@
+apiVersion: admin.gloo.solo.io/v2
+kind: Workspace
+metadata:
+  name: system1
+  namespace: gloo-mesh
+  labels:
+    allow_ingress: "true"
+spec:
+  workloadClusters:
+    - name: cluster1
+      namespaces:
+        - name: demo1
+        - name: demo2
+    - name: cluster2
+      namespaces:
+        - name: demo3
+        - name: demo4
