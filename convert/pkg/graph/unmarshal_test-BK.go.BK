@@ -80,7 +80,7 @@ var (
 	jsonWithDefaultsAndManyServices = []byte(`
 		{
 			"defaults": {
-				"errorRate": "10%",
+				"errorRate": 0.1,
 				"numReplicas": 2,
 				"requestSize": 516,
 				"responseSize": 128,
@@ -114,7 +114,7 @@ var (
 					"script": [
 						[
 							{ "call": {"service": "a", "size": "516" }},
-							{ "call": {"service": "b", "size": "516" }}
+							{ "call": {"service": "b", "size": "516" }},
 						],
 						{ "sleep": "10ms" }
 					]

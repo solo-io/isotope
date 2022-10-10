@@ -15,7 +15,10 @@
 package script
 
 import (
-	"istio.io/tools/isotope/convert/pkg/graph/size"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"solo-io/isotope/convert/pkg/graph/size"
 )
 
 // RequestCommand describes a command to send an HTTP request to another
@@ -36,36 +39,34 @@ var DefaultRequestCommand RequestCommand
 // UnmarshalJSON converts b to a RequestCommand. If b is a JSON string, it is
 // set as c's ServiceName. If b is a JSON object, it's properties are mapped to
 // c.
-//func UnmarshalJSON(b []byte) (err error) {
-//	//*c = DefaultRequestCommand
-//	var requestCommand RequestCommand
-//	err = json.Unmarshal([]byte(b), &requestCommand)
-//	if err != nil {
-//		return
-//	}
-//	//isJSONString := b[0] == '"'
-//	//if isJSONString {
-//	//	var s string
-//	//	err = json.Unmarshal(b, &s)
-//	//	if err != nil {
-//	//		return
-//	//	}
-//	//	c.ServiceName = s
-//	//} else {
-//	//	// Wrap the RequestCommand to dodge the custom UnmarshalJSON.
-//	//	unmarshallableRequestCommand := unmarshallableRequestCommand(*c)
-//	//	err = json.Unmarshal(b, &unmarshallableRequestCommand)
-//	//	if err != nil {
-//	//		return
-//	//	}
-//	//
-//	//	*c = RequestCommand(unmarshallableRequestCommand)
-//	//
-//	//	if c.Probability < 0 || c.Probability > 100 {
-//	//		return errors.New("math: invalid probability, outside range: [0,100]")
-//	//	}
-//	//}
-//	return
-//}
+func (c *RequestCommand) UnmarshalJSON(b []byte) (err error) {
+	*c = DefaultRequestCommand
+	isJSONString := b[0] == '"'
+	if isJSONString {
+		var s string
+		err = json.Unmarshal(b, &s)
+		if err != nil {
+			return
+		}
+		c.ServiceName = s
+		c.CallOverride = fmt.Sprintf("%s:8080", s)
+	} else {
+		// Wrap the RequestCommand to dodge the custom UnmarshalJSON.
+		unmarshallableRequestCommand := unmarshallableRequestCommand(*c)
+		err = json.Unmarshal(b, &unmarshallableRequestCommand)
+		if err != nil {
+			return
+		}
+		
+		*c = RequestCommand(unmarshallableRequestCommand)
+		if c.CallOverride == "" {
+			c.CallOverride = fmt.Sprintf("%s:8080", c.ServiceName)
+		}
+		if c.Probability < 0 || c.Probability > 100 {
+			return errors.New("math: invalid probability, outside range: [0,100]")
+		}
+	}
+	return
+}
 
 type unmarshallableRequestCommand RequestCommand

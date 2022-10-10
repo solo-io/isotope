@@ -16,7 +16,8 @@ package graph
 
 import (
 	"errors"
-	"istio.io/tools/isotope/convert/pkg/graph/script"
+	"fmt"
+	"solo-io/isotope/convert/pkg/graph/script"
 )
 
 // validate returns nil if g is valid.
@@ -39,10 +40,10 @@ func validate(g ServiceGraph) error {
 func validateCommands(cmds []script.Command, svcNames map[string]bool) error {
 	for _, cmd := range cmds {
 		switch cmd := cmd.(type) {
-		//case script.RequestCommand:
-		//	if !svcNames[cmd.ServiceName] {
-		//		return ErrRequestToUndefinedService{cmd.ServiceName}
-		//	}
+		case script.RequestCommand:
+			if !svcNames[cmd.ServiceName] {
+				return ErrRequestToUndefinedService{cmd.ServiceName}
+			}
 		case script.ConcurrentCommand:
 			if err := validateCommands(cmd, svcNames); err != nil {
 				return err
@@ -66,13 +67,13 @@ func containsConcurrentCommand(cmds []script.Command) bool {
 
 // ErrRequestToUndefinedService is returned when a RequestCommand has a
 // ServiceName that is not the name of a defined service.
-//type ErrRequestToUndefinedService struct {
-//	ServiceName string
-//}
+type ErrRequestToUndefinedService struct {
+	ServiceName string
+}
 
-//func (e ErrRequestToUndefinedService) Error() string {
-//	return fmt.Sprintf(`cannot call undefined service "%s"`, e.ServiceName)
-//}
+func (e ErrRequestToUndefinedService) Error() string {
+	return fmt.Sprintf(`cannot call undefined service "%s"`, e.ServiceName)
+}
 
 // ErrNestedConcurrentCommand is returned when a ConcurrentCommand contains
 // a ConcurrentCommand.

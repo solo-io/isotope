@@ -18,7 +18,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"istio.io/tools/isotope/convert/pkg/graph/svctype"
+	"solo-io/isotope/convert/pkg/graph/svctype"
 )
 
 // DefaultService is used by UnmarshalJSON and describes the default settings.

@@ -21,7 +21,7 @@ import (
 
 func TestRequestCommand_UnmarshalJSON(t *testing.T) {
 	DefaultRequestCommand = RequestCommand{}
-
+	
 	tests := []struct {
 		input   []byte
 		command RequestCommand
@@ -29,26 +29,26 @@ func TestRequestCommand_UnmarshalJSON(t *testing.T) {
 	}{
 		{
 			[]byte(`"A"`),
-			RequestCommand{ServiceName: "A"},
+			RequestCommand{ServiceName: "A", CallOverride: "A:8080"},
 			nil,
 		},
 		{
 			[]byte(`{"service": "A"}`),
-			RequestCommand{ServiceName: "A"},
+			RequestCommand{ServiceName: "A", CallOverride: "A:8080"},
 			nil,
 		},
 		{
-			[]byte(`{"service": "a", "size": 128}`),
-			RequestCommand{ServiceName: "a", Size: 128},
+			[]byte(`{"service": "a", "size": 128, "call-override": "a:8080"}`),
+			RequestCommand{ServiceName: "a", Size: 128, CallOverride: "a:8080"},
 			nil,
 		},
 	}
-
+	
 	for _, test := range tests {
 		test := test
 		t.Run("", func(t *testing.T) {
 			t.Parallel()
-
+			
 			var command RequestCommand
 			err := json.Unmarshal(test.input, &command)
 			if test.err != err {
@@ -63,7 +63,7 @@ func TestRequestCommand_UnmarshalJSON(t *testing.T) {
 
 func TestRequestCommand_UnmarshalJSON_Default(t *testing.T) {
 	DefaultRequestCommand = RequestCommand{Size: 512}
-
+	
 	tests := []struct {
 		input   []byte
 		command RequestCommand
@@ -71,26 +71,26 @@ func TestRequestCommand_UnmarshalJSON_Default(t *testing.T) {
 	}{
 		{
 			[]byte(`"A"`),
-			RequestCommand{ServiceName: "A", Size: 512},
+			RequestCommand{ServiceName: "A", Size: 512, CallOverride: "A:8080"},
 			nil,
 		},
 		{
 			[]byte(`{"service": "A"}`),
-			RequestCommand{ServiceName: "A", Size: 512},
+			RequestCommand{ServiceName: "A", Size: 512, CallOverride: "A:8080"},
 			nil,
 		},
 		{
 			[]byte(`{"service": "a", "size": 128}`),
-			RequestCommand{ServiceName: "a", Size: 128},
+			RequestCommand{ServiceName: "a", Size: 128, CallOverride: "a:8080"},
 			nil,
 		},
 	}
-
+	
 	for _, test := range tests {
 		test := test
 		t.Run("", func(t *testing.T) {
 			t.Parallel()
-
+			
 			var command RequestCommand
 			err := json.Unmarshal(test.input, &command)
 			if test.err != err {

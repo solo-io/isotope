@@ -14,7 +14,7 @@
 
 package main
 
-import "istio.io/tools/isotope/convert/cmd"
+import "solo-io/isotope/convert/cmd"
 
 func main() {
 	cmd.Execute()

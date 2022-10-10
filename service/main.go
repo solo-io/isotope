@@ -24,9 +24,9 @@ import (
 
 	"istio.io/pkg/log"
 
-	"istio.io/tools/isotope/convert/pkg/consts"
-	"istio.io/tools/isotope/service/pkg/srv"
-	"istio.io/tools/isotope/service/pkg/srv/prometheus"
+	"solo-io/isotope/convert/pkg/consts"
+	"solo-io/isotope/service/pkg/srv"
+	"solo-io/isotope/service/pkg/srv/prometheus"
 )
 
 const (

@@ -23,10 +23,10 @@ import (
 
 	"istio.io/pkg/log"
 
-	"istio.io/tools/isotope/convert/pkg/graph"
-	"istio.io/tools/isotope/convert/pkg/graph/size"
-	"istio.io/tools/isotope/convert/pkg/graph/svc"
-	"istio.io/tools/isotope/convert/pkg/graph/svctype"
+	"solo-io/isotope/convert/pkg/graph"
+	"solo-io/isotope/convert/pkg/graph/size"
+	"solo-io/isotope/convert/pkg/graph/svc"
+	"solo-io/isotope/convert/pkg/graph/svctype"
 )
 
 // HandlerFromServiceGraphYAML makes a handler to emulate the service with name

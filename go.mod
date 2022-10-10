@@ -1,4 +1,4 @@
-module istio.io/tools/isotope
+module solo-io/isotope
 
 go 1.17
 

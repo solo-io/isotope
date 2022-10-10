@@ -26,9 +26,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/yaml"
 
-	"istio.io/tools/isotope/convert/pkg/consts"
-	"istio.io/tools/isotope/convert/pkg/graph"
-	"istio.io/tools/isotope/convert/pkg/graph/svc"
+	"solo-io/isotope/convert/pkg/consts"
+	"solo-io/isotope/convert/pkg/graph"
+	"solo-io/isotope/convert/pkg/graph/svc"
 )
 
 const (

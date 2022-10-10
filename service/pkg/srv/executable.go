@@ -24,9 +24,9 @@ import (
 	"time"
 
 	"istio.io/pkg/log"
-	"istio.io/tools/isotope/convert/pkg/graph/script"
-	"istio.io/tools/isotope/convert/pkg/graph/svctype"
-	"istio.io/tools/isotope/service/pkg/srv/prometheus"
+	"solo-io/isotope/convert/pkg/graph/script"
+	"solo-io/isotope/convert/pkg/graph/svctype"
+	"solo-io/isotope/service/pkg/srv/prometheus"
 )
 
 func init() {

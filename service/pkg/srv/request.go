@@ -21,7 +21,7 @@ import (
 
 	"istio.io/pkg/log"
 
-	"istio.io/tools/isotope/convert/pkg/graph/size"
+	"solo-io/isotope/convert/pkg/graph/size"
 )
 
 func sendRequest(

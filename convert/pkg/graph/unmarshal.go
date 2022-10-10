@@ -17,12 +17,12 @@ package graph
 import (
 	"encoding/json"
 	"sync"
-
-	"istio.io/tools/isotope/convert/pkg/graph/pct"
-	"istio.io/tools/isotope/convert/pkg/graph/script"
-	"istio.io/tools/isotope/convert/pkg/graph/size"
-	"istio.io/tools/isotope/convert/pkg/graph/svc"
-	"istio.io/tools/isotope/convert/pkg/graph/svctype"
+	
+	"solo-io/isotope/convert/pkg/graph/pct"
+	"solo-io/isotope/convert/pkg/graph/script"
+	"solo-io/isotope/convert/pkg/graph/size"
+	"solo-io/isotope/convert/pkg/graph/svc"
+	"solo-io/isotope/convert/pkg/graph/svctype"
 )
 
 // UnmarshalJSON converts b into a valid ServiceGraph. See validate() for the
@@ -33,17 +33,17 @@ func (g *ServiceGraph) UnmarshalJSON(b []byte) (err error) {
 	if err != nil {
 		return
 	}
-
+	
 	*g, err = parseJSONServiceGraphWithDefaults(b, metadata.Defaults)
 	if err != nil {
 		return
 	}
-
+	
 	err = validate(*g)
 	if err != nil {
 		return
 	}
-
+	
 	return
 }
 
@@ -87,7 +87,7 @@ type defaults struct {
 
 func withGlobalDefaults(defaults defaults, f func()) {
 	defaultMutex.Lock()
-
+	
 	origDefaultService := svc.DefaultService
 	svc.DefaultService = svc.Service{
 		Type:            defaults.Type,
@@ -97,17 +97,17 @@ func withGlobalDefaults(defaults defaults, f func()) {
 		Script:          defaults.Script,
 		NumRbacPolicies: defaults.NumRbacPolicies,
 	}
-
+	
 	origDefaultRequestCommand := script.DefaultRequestCommand
 	script.DefaultRequestCommand = script.RequestCommand{
 		Size: defaults.RequestSize,
 	}
-
+	
 	f()
-
+	
 	svc.DefaultService = origDefaultService
 	script.DefaultRequestCommand = origDefaultRequestCommand
-
+	
 	defaultMutex.Unlock()
 }
 

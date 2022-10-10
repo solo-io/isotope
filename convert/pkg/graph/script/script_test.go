@@ -23,7 +23,7 @@ import (
 
 func TestScript_UnmarshalJSON(t *testing.T) {
 	DefaultRequestCommand = RequestCommand{}
-
+	
 	tests := []struct {
 		input  []byte
 		script Script
@@ -44,7 +44,7 @@ func TestScript_UnmarshalJSON(t *testing.T) {
 		{
 			[]byte(`[{"call": "A"}, {"sleep": "10ms"}]`),
 			Script{
-				RequestCommand{ServiceName: "A"},
+				RequestCommand{ServiceName: "A", CallOverride: "A:8080"},
 				SleepCommand(10 * time.Millisecond),
 			},
 			nil,
@@ -53,20 +53,20 @@ func TestScript_UnmarshalJSON(t *testing.T) {
 			[]byte(`[[{"call": "A"}, {"call": "B"}], {"sleep": "10ms"}]`),
 			Script{
 				ConcurrentCommand{
-					RequestCommand{ServiceName: "A"},
-					RequestCommand{ServiceName: "B"},
+					RequestCommand{ServiceName: "A", CallOverride: "A:8080"},
+					RequestCommand{ServiceName: "B", CallOverride: "B:8080"},
 				},
 				SleepCommand(10 * time.Millisecond),
 			},
 			nil,
 		},
 	}
-
+	
 	for _, test := range tests {
 		test := test
 		t.Run("", func(t *testing.T) {
 			t.Parallel()
-
+			
 			var script Script
 			err := json.Unmarshal(test.input, &script)
 			if test.err != err {
